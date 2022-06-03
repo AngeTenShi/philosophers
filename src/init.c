@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 12:08:22 by anggonza          #+#    #+#             */
-/*   Updated: 2022/05/25 15:34:57 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:26:07 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,18 @@ void	init_rules(t_all *var, char **av, int optionnel)
 	}
 }
 
-void	*routine(void *test)
+void	*routine(void *param)
 {
-	printf("Its a thread \n");
+	t_all	*var;
+
+	var = (t_all *)param;
+	if (!pthread_mutex_lock(&var->mutex[var->philos[var->philos->id].left_fork]))
+		return ;
+	if (!pthread_mutex_lock(&var->mutex[var->philos[var->philos->id].right_fork]))
+		return ;
+	printf("Philo %d is eating\n", var->philos->id);
+	pthread_mutex_unlock(&var->mutex[var->philos[var->philos->id].left_fork]);
+	pthread_mutex_unlock(&var->mutex[var->philos[var->philos->id].right_fork]);
 	return (NULL);
 }
 
@@ -56,11 +65,12 @@ void	init_philos(t_all *var)
 	i = 0;
 	while (i < var->rules.number_of_philosophers)
 	{
-		pthread_create(&var->philos[i].thread, NULL, &routine, NULL);
-		var->philos[i].id = i + 1;
+		var->philos[i].id = i;
 		var->philos[i].left_fork = i;
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
 		var->philos[i].is_eating = 0;
+		pthread_create(&var->philos[i].thread, NULL, &routine, var);
+		pthread_join(var->philos[i].thread, NULL);
 		i++;
 	}
 }

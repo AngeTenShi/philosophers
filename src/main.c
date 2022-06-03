@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:54:34 by anggonza          #+#    #+#             */
-/*   Updated: 2022/05/25 15:16:55 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:07:17 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || ac > 6)
 	{
-		ft_putstr_fd("Error not enougth arguments\n", 2);
+		ft_putstr_fd("Error it must be 5 arguments\n", 2);
 		return (0);
 	}
 	if (ac == 5)
