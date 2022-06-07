@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av)
 {
-	t_all	var;
+	t_all			var;
 
 	if (ac < 5 || ac > 6)
 	{
@@ -27,7 +27,6 @@ int	main(int ac, char **av)
 		init_rules(&var, av, 1);
 	init_mutex(&var);
 	init_philos(&var);
-	//start_threads();
 	//return (free_everything(&var));
 	return (0);
 }

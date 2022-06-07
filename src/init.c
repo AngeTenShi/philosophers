@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 12:08:22 by anggonza          #+#    #+#             */
-/*   Updated: 2022/06/03 15:26:07 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:20:51 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ void	init_mutex(t_all *var)
 	int	i;
 
 	i = 0;
-	var->mutex = malloc(sizeof(pthread_mutex_t)
-			* var->rules.number_of_philosophers);
 	while (i < var->rules.number_of_philosophers)
 	{
-		pthread_mutex_init(&var->mutex[i], NULL);
+		pthread_mutex_init(&var->philos[i].left_fork, NULL);
 		i++;
 	}
+	pthread_mutex_init(&var->rules.print, NULL);
 }
 
 void	init_rules(t_all *var, char **av, int optionnel)
@@ -40,6 +39,7 @@ void	init_rules(t_all *var, char **av, int optionnel)
 	{
 		var->rules.number_time_to_eat = ft_atoi(av[5]);
 	}
+	var->philos = malloc(sizeof(t_philo) * var->rules.number_of_philosophers);
 }
 
 void	*routine(void *param)
@@ -47,13 +47,11 @@ void	*routine(void *param)
 	t_all	*var;
 
 	var = (t_all *)param;
-	if (!pthread_mutex_lock(&var->mutex[var->philos[var->philos->id].left_fork]))
-		return ;
-	if (!pthread_mutex_lock(&var->mutex[var->philos[var->philos->id].right_fork]))
-		return ;
-	printf("Philo %d is eating\n", var->philos->id);
-	pthread_mutex_unlock(&var->mutex[var->philos[var->philos->id].left_fork]);
-	pthread_mutex_unlock(&var->mutex[var->philos[var->philos->id].right_fork]);
+	if (var->id_actual % 2 == 0)
+		usleep(10);
+	//take_fork(var);
+	eat(var);
+	time_to_sleep(var);
 	return (NULL);
 }
 
@@ -61,16 +59,19 @@ void	init_philos(t_all *var)
 {
 	int	i;
 
-	var->philos = malloc(sizeof(t_philo) * var->rules.number_of_philosophers);
+	if (var->rules.number_of_philosophers == 1)
+		return ;
 	i = 0;
+	gettimeofday(&var->begin_time, NULL);
 	while (i < var->rules.number_of_philosophers)
 	{
-		var->philos[i].id = i;
-		var->philos[i].left_fork = i;
-		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
-		var->philos[i].is_eating = 0;
+		var->philos[i].id = i + 1;
+		var->philos[i].right_fork = &var->philos[(i + 1) % var->rules.number_of_philosophers].left_fork;
+		var->id_actual = i;
 		pthread_create(&var->philos[i].thread, NULL, &routine, var);
-		pthread_join(var->philos[i].thread, NULL);
+		usleep(100);
+		pthread_detach(var->philos[i].thread);
+		usleep(100);
 		i++;
 	}
 }
