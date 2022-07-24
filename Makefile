@@ -10,7 +10,7 @@ INC			=	-I ./libft
 LIB			=	-L ./libft -lft
 SRCS_DIR	=	src
 OBJS_DIR	=	objs
-SRCS			=	main.c init.c
+SRCS			=	main.c init.c routine.c time.c
 
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)/%.o)
 
