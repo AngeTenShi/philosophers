@@ -18,9 +18,12 @@ void	my_sleep(int time_to_sleep)
 	}
 }
 
-int	get_time(int start, int end)
+int	get_ms(struct timeval begin)
 {
-	return (end - start);
+	struct timeval end;
+
+	gettimeofday(&end, NULL);
+	return ((end.tv_sec - begin.tv_sec) * 1000 + (end.tv_usec - begin.tv_usec) / 1000);
 }
 
 

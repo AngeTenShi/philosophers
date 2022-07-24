@@ -1,39 +1,42 @@
 #include "philosophers.h"
 
-void	print_message(int type, t_all *var, int id)
+void	print_message(int type, t_all *var, int id, struct timeval timer)
 {
+	int	ms;
+
 	pthread_mutex_lock(&var->print_mutex);
+	ms = get_ms(timer);
 	if (type == FORK)
-		printf("%d has taken a fork\n", id);
+		printf("%d ms %d has taken a fork\n", ms, id);
 	if (type == EAT)
-		printf("%d is eating\n", id);
+		printf("%d ms %d is eating\n", ms, id);
 	if (type == SLEEP)
-		printf("%d is sleeping\n", id);
+		printf("%d ms %d is sleeping\n", ms, id);
 	if (type == THINKING)
-		printf("%d is thinking\n", id);
+		printf("%d ms %d is thinking\n", ms, id);
 	pthread_mutex_unlock(&var->print_mutex);
 }
 
-void	eat(t_all *var, int id)
+void	eat(t_all *var, int id, struct timeval timer)
 {
-	print_message(EAT, var, id);
+	print_message(EAT, var, id, timer);
 	my_sleep(var->rules.time_to_eat);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
-	sleeping(var, id);
+	sleeping(var, id, timer);
 }
 
-void	sleeping(t_all *var, int id)
+void	sleeping(t_all *var, int id, struct timeval timer)
 {
-	print_message(SLEEP, var, id);
+	print_message(SLEEP, var, id, timer);
 	my_sleep(var->rules.time_to_sleep);
-	print_message(THINKING, var, id);
+	print_message(THINKING, var, id, timer);
 }
 
-void take_forks(t_all *var, int id)
+void take_forks(t_all *var, int id, struct timeval timer)
 {
 	pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
-	print_message(FORK, var, id);
+	print_message(FORK, var, id, timer);
 	pthread_mutex_lock(&var->mutex[var->philos[id].right_fork]);
-	print_message(FORK, var, id);
+	print_message(FORK, var, id, timer);
 }

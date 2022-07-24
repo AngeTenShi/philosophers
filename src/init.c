@@ -44,26 +44,28 @@ void	init_rules(t_all *var, char **av, int optionnel)
 
 void	*routine(void *param)
 {
-	t_all	*var;
-	int	id;
-	int	time_eat;
+	t_all				*var;
+	int				*id;
+	int				time_eat;
+	struct timeval	timer;
 
+	gettimeofday(&timer, NULL);
 	var = (t_all *)param;
-	id = var->i;
+	id = (var->i);
 	time_eat = var->rules.number_time_to_eat;
 	if (time_eat != -1)
 	{
 		while (time_eat < var->rules.time_to_eat)
 		{
-			take_forks(var, id);
-			eat(var, id);
+			take_forks(var, *id, timer);
+			eat(var, *id, timer);
 			time_eat++;
 		}
 	}
 	else
 	{
-		take_forks(var, id);
-		eat(var, id);
+		take_forks(var, *id, timer);
+		eat(var, *id, timer);
 	}
 	return (NULL);
 }
@@ -91,17 +93,17 @@ void	create_threads(t_all *var)
 	i = 0;
 	while (i < var->rules.number_of_philosophers)
 	{
-		var->i = i;
+		var->i = malloc(sizeof(int));
+		*(var->i) = i;
 		pthread_create(&var->philos[i].thread, NULL, routine, (void *)var);
-		//	pthread_join(var->philos[i].thread, NULL);
 		i += 2;
 	}
 	i = 1;
 	while (i < var->rules.number_of_philosophers)
 	{
-		var->i = i;
+		var->i = malloc(sizeof(int));
+		*(var->i) = i;
 		pthread_create(&var->philos[i].thread, NULL, routine, (void *)var);
-	//	pthread_join(var->philos[i].thread, NULL);
 		i += 2;
 	}
 	i = 0;
