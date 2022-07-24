@@ -27,7 +27,7 @@ int	main(int ac, char **av)
 		init_rules(&var, av, 1);
 	init_mutex(&var);
 	init_philos(&var);
-	//start_threads();
+	create_threads(&var);
 	//return (free_everything(&var));
 	return (0);
 }

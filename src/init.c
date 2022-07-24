@@ -45,15 +45,26 @@ void	init_rules(t_all *var, char **av, int optionnel)
 void	*routine(void *param)
 {
 	t_all	*var;
+	int	id;
+	int	time_eat;
 
 	var = (t_all *)param;
-	if (!pthread_mutex_lock(&var->mutex[var->philos[var->philos->id].left_fork]))
-		return ;
-	if (!pthread_mutex_lock(&var->mutex[var->philos[var->philos->id].right_fork]))
-		return ;
-	printf("Philo %d is eating\n", var->philos->id);
-	pthread_mutex_unlock(&var->mutex[var->philos[var->philos->id].left_fork]);
-	pthread_mutex_unlock(&var->mutex[var->philos[var->philos->id].right_fork]);
+	id = var->i;
+	time_eat = var->rules.number_time_to_eat;
+	if (time_eat != -1)
+	{
+		while (time_eat < var->rules.time_to_eat)
+		{
+			take_forks(var, id);
+			eat(var, id);
+			time_eat++;
+		}
+	}
+	else
+	{
+		take_forks(var, id);
+		eat(var, id);
+	}
 	return (NULL);
 }
 
@@ -69,7 +80,33 @@ void	init_philos(t_all *var)
 		var->philos[i].left_fork = i;
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
 		var->philos[i].is_eating = 0;
-		pthread_create(&var->philos[i].thread, NULL, &routine, var);
+		i++;
+	}
+}
+
+void	create_threads(t_all *var)
+{
+	int	i;
+
+	i = 0;
+	while (i < var->rules.number_of_philosophers)
+	{
+		var->i = i;
+		pthread_create(&var->philos[i].thread, NULL, routine, (void *)var);
+		//	pthread_join(var->philos[i].thread, NULL);
+		i += 2;
+	}
+	i = 1;
+	while (i < var->rules.number_of_philosophers)
+	{
+		var->i = i;
+		pthread_create(&var->philos[i].thread, NULL, routine, (void *)var);
+	//	pthread_join(var->philos[i].thread, NULL);
+		i += 2;
+	}
+	i = 0;
+	while (i < var->rules.number_of_philosophers)
+	{
 		pthread_join(var->philos[i].thread, NULL);
 		i++;
 	}

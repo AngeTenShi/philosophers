@@ -20,6 +20,11 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 
+# define FORK 0
+# define EAT 1
+# define SLEEP 2
+# define THINKING 3
+
 typedef struct s_rules
 {
 	int	number_of_philosophers;
@@ -43,10 +48,19 @@ typedef struct s_all
 	pthread_mutex_t	*mutex;
 	t_philo			*philos;
 	t_rules			rules;
+	pthread_mutex_t	print_mutex;
+	int				i;
 }	t_all;
 
 void	init_rules(t_all *var, char **av, int optionnel);
 void	init_philos(t_all *var);
 void	init_mutex(t_all *var);
+void    create_threads(t_all *var);
+void	print_message(int type, t_all *var, int id);
+void	sleeping(t_all *var, int id);
+void	eat(t_all *var, int id);
+void take_forks(t_all *var, int id);
+int	get_time(int start, int end);
+void	my_sleep(int time_to_sleep);
 
 #endif
