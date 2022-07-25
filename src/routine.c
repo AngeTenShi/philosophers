@@ -33,8 +33,8 @@ void	eat(t_all *var, int id, struct timeval timer)
 {
 	print_message(EAT, var, id, timer);
 	my_sleep(var->rules.time_to_eat);
-	//pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
-	//pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
+	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
+	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
 	sleeping(var, id, timer);
 }
 

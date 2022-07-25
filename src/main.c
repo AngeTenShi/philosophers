@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 	{
 		ft_putstr_fd("Error it must be 5 arguments\n", 2);
+		free(var);
 		return (0);
 	}
 	if (ac == 5)
