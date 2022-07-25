@@ -37,6 +37,7 @@ void	init_rules(t_all *var, char **av, int optionnel)
 		var->rules.number_time_to_eat = -1;
 	else
 		var->rules.number_time_to_eat = ft_atoi(av[5]);
+	var->one_is_dead = 0;
 }
 
 void	init_philos(t_all *var)
@@ -50,8 +51,8 @@ void	init_philos(t_all *var)
 		var->philos[i].id = i;
 		var->philos[i].left_fork = i;
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
-		var->philos[i].is_eating = 0;
 		var->philos[i].all = var;
+		var->philos[i].last_meal_time = -1;
 		i++;
 	}
 }

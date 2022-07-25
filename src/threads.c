@@ -21,19 +21,29 @@ void	*routine(void *param)
 	var = ((t_philo *)param)->all;
 	id = ((t_philo *)param)->id;
 	time_eat = var->rules.number_time_to_eat;
-	if (time_eat != -1)
+	while (var->one_is_dead != 1)
 	{
-		while (time_eat < var->rules.time_to_eat)
+		if (check_death(var, id))
+		{
+			var->one_is_dead = 1;
+			print_message(DIED, var, id, var->timer);
+			break;
+		}
+		if (time_eat != -1)
+		{
+
+			while (time_eat < var->rules.time_to_eat)
+			{
+				take_forks(var, id, var->timer);
+				eat(var, id, var->timer);
+				time_eat++;
+			}
+		}
+		else
 		{
 			take_forks(var, id, var->timer);
 			eat(var, id, var->timer);
-			time_eat++;
 		}
-	}
-	else
-	{
-		take_forks(var, id, var->timer);
-		eat(var, id, var->timer);
 	}
 	return (NULL);
 }

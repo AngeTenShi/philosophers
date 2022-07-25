@@ -24,7 +24,9 @@
 # define EAT 1
 # define SLEEP 2
 # define THINKING 3
-
+# define DIED 4
+# define OVERFLOW_MAX "2147483647"
+# define OVERFLOW_MIN "-2147483648"
 typedef	struct s_all t_all;
 
 typedef struct s_rules
@@ -41,7 +43,7 @@ typedef struct s_philo
 	int			id;
 	int			left_fork;
 	int			right_fork;
-	int			is_eating;
+	int			last_meal_time;
 	pthread_t	thread;
 	t_all		*all;
 }	t_philo;
@@ -52,6 +54,7 @@ typedef struct s_all
 	t_philo			*philos;
 	t_rules			rules;
 	pthread_mutex_t	print_mutex;
+	int				one_is_dead;
 	int				*i;
 	struct timeval	timer;
 }	t_all;
@@ -65,5 +68,7 @@ void	sleeping(t_all *var, int id, struct timeval timer);
 void	eat(t_all *var, int id, struct timeval timer);
 void	take_forks(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
-int		get_ms(struct timeval begin);
+int	get_ms(struct timeval begin);
+int 	check_death(t_all *var, int id);
+int	parse_args(int ac, char **av, t_all *var);
 #endif
