@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 12:08:22 by anggonza          #+#    #+#             */
-/*   Updated: 2022/06/03 15:26:07 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/25 10:49:09 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,6 @@ void	init_rules(t_all *var, char **av, int optionnel)
 	}
 }
 
-void	*routine(void *param)
-{
-	t_all				*var;
-	int				*id;
-	int				time_eat;
-	struct timeval	timer;
-
-	gettimeofday(&timer, NULL);
-	var = (t_all *)param;
-	id = (var->i);
-	time_eat = var->rules.number_time_to_eat;
-	if (time_eat != -1)
-	{
-		while (time_eat < var->rules.time_to_eat)
-		{
-			take_forks(var, *id, timer);
-			eat(var, *id, timer);
-			time_eat++;
-		}
-	}
-	else
-	{
-		take_forks(var, *id, timer);
-		eat(var, *id, timer);
-	}
-	return (NULL);
-}
-
 void	init_philos(t_all *var)
 {
 	int	i;
@@ -82,34 +54,7 @@ void	init_philos(t_all *var)
 		var->philos[i].left_fork = i;
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
 		var->philos[i].is_eating = 0;
-		i++;
-	}
-}
-
-void	create_threads(t_all *var)
-{
-	int	i;
-
-	i = 0;
-	while (i < var->rules.number_of_philosophers)
-	{
-		var->i = malloc(sizeof(int));
-		*(var->i) = i;
-		pthread_create(&var->philos[i].thread, NULL, routine, (void *)var);
-		i += 2;
-	}
-	i = 1;
-	while (i < var->rules.number_of_philosophers)
-	{
-		var->i = malloc(sizeof(int));
-		*(var->i) = i;
-		pthread_create(&var->philos[i].thread, NULL, routine, (void *)var);
-		i += 2;
-	}
-	i = 0;
-	while (i < var->rules.number_of_philosophers)
-	{
-		pthread_join(var->philos[i].thread, NULL);
+		var->philos[i].all = var;
 		i++;
 	}
 }

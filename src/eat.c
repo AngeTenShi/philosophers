@@ -24,7 +24,7 @@ void	print_state(t_all *var, char state)
 	pthread_mutex_unlock(&var->rules.print);
 }
 
-void	eat(t_all *var)
+void	Aeat(t_all *var)
 {
 	struct timeval	begin_eat;
 

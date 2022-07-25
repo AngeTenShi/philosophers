@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/25 10:24:23 by anggonza          #+#    #+#             */
+/*   Updated: 2022/07/25 13:31:23 by anggonza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 void	print_message(int type, t_all *var, int id, struct timeval timer)
@@ -33,7 +45,7 @@ void	sleeping(t_all *var, int id, struct timeval timer)
 	print_message(THINKING, var, id, timer);
 }
 
-void take_forks(t_all *var, int id, struct timeval timer)
+void	take_forks(t_all *var, int id, struct timeval timer)
 {
 	pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
 	print_message(FORK, var, id, timer);

@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:21:28 by anggonza          #+#    #+#             */
-/*   Updated: 2022/06/03 14:36:54 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:08:28 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define SLEEP 2
 # define THINKING 3
 
+typedef	struct s_all t_all;
+
 typedef struct s_rules
 {
 	int	number_of_philosophers;
@@ -41,21 +43,22 @@ typedef struct s_philo
 	int			right_fork;
 	int			is_eating;
 	pthread_t	thread;
+	t_all		*all;
 }	t_philo;
 
 typedef struct s_all
 {
 	pthread_mutex_t	*mutex;
-	t_philo				*philos;
-	t_rules				rules;
+	t_philo			*philos;
+	t_rules			rules;
 	pthread_mutex_t	print_mutex;
-	int					*i;
+	int				*i;
 }	t_all;
 
 void	init_rules(t_all *var, char **av, int optionnel);
 void	init_philos(t_all *var);
 void	init_mutex(t_all *var);
-void    create_threads(t_all *var);
+void	create_threads(t_all *var);
 void	print_message(int type, t_all *var, int id, struct timeval timer);
 void	sleeping(t_all *var, int id, struct timeval timer);
 void	eat(t_all *var, int id, struct timeval timer);
