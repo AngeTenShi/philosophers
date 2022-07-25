@@ -12,7 +12,7 @@
 
 #include "philosophers.h"
 
-int check_death(t_all *var, int id)
+int	check_death(t_all *var, int id)
 {
 	int	time;
 	int	tmp;

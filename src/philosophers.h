@@ -27,7 +27,8 @@
 # define DIED 4
 # define OVERFLOW_MAX "2147483647"
 # define OVERFLOW_MIN "-2147483648"
-typedef	struct s_all t_all;
+
+typedef struct s_all	t_all;
 
 typedef struct s_rules
 {
@@ -68,7 +69,7 @@ void	sleeping(t_all *var, int id, struct timeval timer);
 void	eat(t_all *var, int id, struct timeval timer);
 void	take_forks(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
-int	get_ms(struct timeval begin);
-int 	check_death(t_all *var, int id);
-int	parse_args(int ac, char **av, t_all *var);
+int		get_ms(struct timeval begin);
+int		check_death(t_all *var, int id);
+int		parse_args(int ac, char **av, t_all *var);
 #endif

@@ -18,11 +18,11 @@ int	main(int ac, char **av)
 
 	var = malloc(sizeof(t_all));
 	if (!parse_args(ac, av, var))
-		return (0);
+		return (-1);
 	init_mutex(var);
 	init_philos(var);
 	create_threads(var);
 	free(var);
-	//return (free_everything(&var));
-	return (1);
+	return (0);
 }
+//return (free_everything(&var));

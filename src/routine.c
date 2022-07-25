@@ -35,7 +35,6 @@ void	print_message(int type, t_all *var, int id, struct timeval timer)
 void	eat(t_all *var, int id, struct timeval timer)
 {
 	print_message(EAT, var, id, timer);
-	if (var->rules.time_to_eat > var->rules.time_to_die)
 	my_sleep(var->rules.time_to_eat);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);

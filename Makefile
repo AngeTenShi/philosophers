@@ -1,4 +1,4 @@
-NAME		=	philosophers
+NAME		=	philo_one
 CC			=	gcc -g
 RED			=	\033[0;31m
 CYAN		=	\033[0;36m
@@ -10,7 +10,7 @@ INC			=	-I ./libft
 LIB			=	-L ./libft -lft
 SRCS_DIR	=	src
 OBJS_DIR	=	objs
-SRCS			=	main.c init.c routine.c time.c threads.c
+SRCS			=	main.c init.c routine.c time.c threads.c death.c parse.c
 
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)/%.o)
 

@@ -1,23 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                             :+:      :+:    :+:  */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 11:54:34 by anggonza          #+#    #+#             */
+/*   Updated: 2022/06/03 15:07:17 by anggonza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
+
+//new way to check the overflow adding ascii values of
+int	sum(char *str)
+{
+	int	res;
+	int	i;
+
+	i = 0;
+	res = 0;
+	while (str[i])
+	{
+		res += (int)str[i];
+		i++;
+	}
+	return (res);
+}
 
 int	check_overflow(char **av)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (av[i])
 	{
+		if (ft_strlen(av[i]) > ft_strlen(OVERFLOW_MAX))
+			return (1);
 		if (ft_strlen(OVERFLOW_MAX) == ft_strlen(av[i]))
+		{
 			if (!ft_strncmp(OVERFLOW_MAX, av[i], ft_strlen(OVERFLOW_MAX)))
 				return (1);
+			if (sum(av[i]) > sum(OVERFLOW_MAX))
+				return (1);
+		}
 		i++;
 	}
 	return (0);
 }
-int check_chars(char **av)
+
+int	check_chars(char **av)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = 0;
@@ -43,10 +78,14 @@ int	parse_args(int ac, char **av, t_all *var)
 		free(var);
 		return (0);
 	}
-	if (check_chars(&av[1]) || check_overflow(&av[1]))
+	if (check_chars(&av[1]))
 	{
-		ft_putstr_fd("Arguments not valid please input only numbers and", 2);
-		ft_putstr_fd(" not over the overflow plz :)\n", 2);
+		ft_putstr_fd("Arguments not valid please input only numbers\n", 2);
+		return (0);
+	}
+	if (check_overflow(&av[1]))
+	{
+		ft_putstr_fd("not over the overflow plz :)\n", 2);
 		return (0);
 	}
 	if (ac == 5)

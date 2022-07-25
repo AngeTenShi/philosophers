@@ -12,6 +12,16 @@
 
 #include "philosophers.h"
 
+void	routine_eat(t_all *var, int time_eat, int id)
+{
+	while (time_eat < var->rules.time_to_eat)
+	{
+		take_forks(var, id, var->timer);
+		eat(var, id, var->timer);
+		time_eat++;
+	}
+}
+
 void	*routine(void *param)
 {
 	t_all			*var;
@@ -27,18 +37,10 @@ void	*routine(void *param)
 		{
 			var->one_is_dead = 1;
 			print_message(DIED, var, id, var->timer);
-			break;
+			break ;
 		}
 		if (time_eat != -1)
-		{
-
-			while (time_eat < var->rules.time_to_eat)
-			{
-				take_forks(var, id, var->timer);
-				eat(var, id, var->timer);
-				time_eat++;
-			}
-		}
+			routine_eat(var, time_eat, id);
 		else
 		{
 			take_forks(var, id, var->timer);
