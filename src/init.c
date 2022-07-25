@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 12:08:22 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/25 10:49:09 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:10:43 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_mutex(t_all *var)
 		pthread_mutex_init(&var->mutex[i], NULL);
 		i++;
 	}
+	pthread_mutex_init(&var->print_mutex, NULL);
 }
 
 void	init_rules(t_all *var, char **av, int optionnel)
@@ -33,13 +34,9 @@ void	init_rules(t_all *var, char **av, int optionnel)
 	var->rules.time_to_eat = ft_atoi(av[3]);
 	var->rules.time_to_sleep = ft_atoi(av[4]);
 	if (!optionnel)
-	{
 		var->rules.number_time_to_eat = -1;
-	}
 	else
-	{
 		var->rules.number_time_to_eat = ft_atoi(av[5]);
-	}
 }
 
 void	init_philos(t_all *var)

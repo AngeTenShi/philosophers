@@ -4,7 +4,7 @@ RED			=	\033[0;31m
 CYAN		=	\033[0;36m
 COLOR_OFF	=	\033[0m\0
 YELLOW		=	\033[0;33m
-FLAGS		=	-Wall -Wextra -Werror -pthread -fsanitize=address
+FLAGS		=	-pthread -fsanitize=address
 LFT			=	libft/libft.a
 INC			=	-I ./libft
 LIB			=	-L ./libft -lft

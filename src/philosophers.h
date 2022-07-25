@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:21:28 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/25 11:08:28 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:12:36 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_all
 	t_rules			rules;
 	pthread_mutex_t	print_mutex;
 	int				*i;
+	struct timeval	timer;
 }	t_all;
 
 void	init_rules(t_all *var, char **av, int optionnel);
@@ -64,5 +65,5 @@ void	sleeping(t_all *var, int id, struct timeval timer);
 void	eat(t_all *var, int id, struct timeval timer);
 void	take_forks(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
-int	get_ms(struct timeval begin);
+int		get_ms(struct timeval begin);
 #endif

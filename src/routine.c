@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:23 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/25 13:31:23 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:13:34 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	eat(t_all *var, int id, struct timeval timer)
 {
 	print_message(EAT, var, id, timer);
 	my_sleep(var->rules.time_to_eat);
-	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
-	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
+	//pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
+	//pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
 	sleeping(var, id, timer);
 }
 
