@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:21:28 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/25 15:12:36 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:21:39 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_philo
 	int			right_fork;
 	int			last_meal_time;
 	pthread_t	thread;
+	pthread_t	death_checker;
+	int			is_dead;
 	t_all		*all;
 }	t_philo;
 
@@ -70,6 +72,7 @@ void	eat(t_all *var, int id, struct timeval timer);
 void	take_forks(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
 int		get_ms(struct timeval begin);
-int		check_death(t_all *var, int id);
 int		parse_args(int ac, char **av, t_all *var);
+void	*check_death(void *param);
+
 #endif
