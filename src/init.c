@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 12:08:22 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/26 11:26:22 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:03:51 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_mutex(t_all *var)
 		i++;
 	}
 	pthread_mutex_init(&var->print_mutex, NULL);
+	pthread_mutex_init(&var->is_dead, NULL);
 }
 
 void	init_rules(t_all *var, char **av, int optionnel)
@@ -53,7 +54,7 @@ void	init_philos(t_all *var)
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
 		var->philos[i].all = var;
 		var->philos[i].last_meal_time = -1;
-		var->philos[i].is_dead = 0;
+		var->philos[i].dead = 0;
 		i++;
 	}
 }

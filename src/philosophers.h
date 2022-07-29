@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:21:28 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/26 11:21:39 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/07/27 13:59:20 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ typedef struct s_rules
 
 typedef struct s_philo
 {
-	int			id;
-	int			left_fork;
-	int			right_fork;
-	int			last_meal_time;
-	pthread_t	thread;
-	pthread_t	death_checker;
-	int			is_dead;
-	t_all		*all;
+	int				id;
+	int				left_fork;
+	int				right_fork;
+	int				last_meal_time;
+	pthread_t		thread;
+	pthread_t		death_checker;
+	int				dead;
+	t_all			*all;
 }	t_philo;
 
 typedef struct s_all
@@ -57,6 +57,7 @@ typedef struct s_all
 	t_philo			*philos;
 	t_rules			rules;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	is_dead;
 	int				one_is_dead;
 	int				*i;
 	struct timeval	timer;
@@ -68,7 +69,7 @@ void	init_mutex(t_all *var);
 void	create_threads(t_all *var);
 void	print_message(int type, t_all *var, int id, struct timeval timer);
 void	sleeping(t_all *var, int id, struct timeval timer);
-void	eat(t_all *var, int id, struct timeval timer);
+int		eat(t_all *var, int id, struct timeval timer);
 void	take_forks(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
 int		get_ms(struct timeval begin);
