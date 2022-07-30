@@ -12,12 +12,15 @@
 
 #include "philosophers.h"
 
-void	print_message(int type, t_all *var, int id, struct timeval timer)
+int	print_message(int type, t_all *var, int id, struct timeval timer)
 {
 	int	ms;
-
-	pthread_mutex_lock(&var->print_mutex);
+	pthread_mutex_lock(&var->is_dead);
 	ms = get_ms(timer);
+	if (var->one_is_dead == 1)
+		return (0);
+	pthread_mutex_unlock(&var->is_dead);
+	pthread_mutex_lock(&var->print_mutex);
 	var->philos[id].last_meal_time = ms;
 	if (type == FORK)
 		printf("%d ms %d has taken a fork\n", ms, id);
@@ -30,33 +33,36 @@ void	print_message(int type, t_all *var, int id, struct timeval timer)
 	if (type == DIED)
 		printf("%d ms %d died\n", ms, id);
 	pthread_mutex_unlock(&var->print_mutex);
+	return (1);
 }
 
 int	eat(t_all *var, int id, struct timeval timer)
 {
-	pthread_mutex_lock(&var->is_dead);
-	if (var->one_is_dead == 1)
+	if (var->philos[id].is_dead == 1)
 		return (0);
-	pthread_mutex_unlock(&var->is_dead);
 	pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
-	print_message(FORK, var, id, timer);
+	if (!print_message(FORK, var, id, timer))
+		return (0);
 	pthread_mutex_lock(&var->mutex[var->philos[id].right_fork]);
-	print_message(FORK, var, id, timer);
-	print_message(EAT, var, id, timer);
+	if (!print_message(FORK, var, id, timer))
+		return (0);
+	if (!print_message(EAT, var, id, timer))
+		return (0);
 	my_sleep(var->rules.time_to_eat);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
-	sleeping(var, id, timer);
+	if (!sleeping(var, id, timer))
+		return (0);
 	return (1);
 }
 
-void	sleeping(t_all *var, int id, struct timeval timer)
+int	sleeping(t_all *var, int id, struct timeval timer)
 {
-	pthread_mutex_lock(&var->is_dead);
-	if (var->one_is_dead == 1)
-		return ;
-	pthread_mutex_unlock(&var->is_dead);
-	print_message(SLEEP, var, id, timer);
+	if (var->philos[id].is_dead == 1)
+		return (0);
+	if (!print_message(SLEEP, var, id, timer))
+		return (0);
 	my_sleep(var->rules.time_to_sleep);
-	print_message(THINKING, var, id, timer);
+	if (!print_message(THINKING, var, id, timer))
+		return (0);
 }

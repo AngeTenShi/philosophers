@@ -54,7 +54,8 @@ void	init_philos(t_all *var)
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
 		var->philos[i].all = var;
 		var->philos[i].last_meal_time = -1;
-		var->philos[i].dead = 0;
+		var->philos[i].is_eating = 0;
+		var->philos[i].is_dead = 0;
 		i++;
 	}
 }

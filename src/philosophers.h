@@ -47,7 +47,8 @@ typedef struct s_philo
 	int				last_meal_time;
 	pthread_t		thread;
 	pthread_t		death_checker;
-	int				dead;
+	int				is_eating;
+	int 				is_dead;
 	t_all			*all;
 }	t_philo;
 
@@ -67,10 +68,9 @@ void	init_rules(t_all *var, char **av, int optionnel);
 void	init_philos(t_all *var);
 void	init_mutex(t_all *var);
 void	create_threads(t_all *var);
-void	print_message(int type, t_all *var, int id, struct timeval timer);
-void	sleeping(t_all *var, int id, struct timeval timer);
+int	print_message(int type, t_all *var, int id, struct timeval timer);
+int	sleeping(t_all *var, int id, struct timeval timer);
 int		eat(t_all *var, int id, struct timeval timer);
-void	take_forks(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
 int		get_ms(struct timeval begin);
 int		parse_args(int ac, char **av, t_all *var);

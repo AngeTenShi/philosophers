@@ -12,6 +12,19 @@
 
 #include "philosophers.h"
 
+void	everyone_dead(t_all *var)
+{
+	int i;
+
+	i = 0;
+	while (i < var->rules.number_of_philosophers)
+	{
+		var->philos[i].is_dead = 1;
+		i++;
+	}
+}
+
+
 void	*check_death(void *param)
 {
 	int		time;
@@ -23,19 +36,23 @@ void	*check_death(void *param)
 	id = ((t_philo *)param)->id;
 	while (1)
 	{
-		if (var->philos[id].last_meal_time == -1)
-			tmp = var->philos[id].last_meal_time + 1;
-		time = get_ms(var->timer) - var->philos[id].last_meal_time;
-		if (time >= var->rules.time_to_die && var->one_is_dead != 1)
-		{
-			pthread_mutex_lock(&var->is_dead);
-			var->one_is_dead = 1;
-			pthread_mutex_unlock(&var->is_dead);
-			print_message(DIED, var, id, var->timer);
-			break ;
-		}
 		if (var->one_is_dead == 1)
-			break ;
+			return (NULL);
+		if (var->philos[id].last_meal_time == -1)
+			continue ;
+		if (var->philos[id].is_eating == 0 && var->philos[id].last_meal_time != -1)
+		{
+			time = get_ms(var->timer) - var->philos[id].last_meal_time;
+			if (time >= var->rules.time_to_die && var->one_is_dead != 1)
+			{
+				if (pthread_mutex_lock(&var->is_dead))
+					return (NULL);
+				var->one_is_dead = 1;
+				printf("%d ms %d died\n", get_ms(var->timer), id);
+				everyone_dead(var);
+				if (pthread_mutex_unlock(&var->is_dead))
+					return (NULL);
+			}
+		}
 	}
-	return (NULL);
 }
