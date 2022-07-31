@@ -19,7 +19,8 @@ void	everyone_dead(t_all *var)
 	i = 0;
 	while (i < var->rules.number_of_philosophers)
 	{
-		var->philos[i].is_dead = 1;
+		if (var->philos[i].is_dead != 1)
+			var->philos[i].is_dead = 1;
 		i++;
 	}
 }
@@ -37,10 +38,10 @@ void	*check_death(void *param)
 	while (1)
 	{
 		if (var->one_is_dead == 1)
-			return (NULL);
+			break ;
 		if (var->philos[id].last_meal_time == -1)
 			continue ;
-		if (var->philos[id].is_eating == 0 && var->philos[id].last_meal_time != -1)
+		else
 		{
 			time = get_ms(var->timer) - var->philos[id].last_meal_time;
 			if (time >= var->rules.time_to_die && var->one_is_dead != 1)
@@ -52,7 +53,9 @@ void	*check_death(void *param)
 				everyone_dead(var);
 				if (pthread_mutex_unlock(&var->is_dead))
 					return (NULL);
+				break ;
 			}
 		}
 	}
+	return (NULL);
 }

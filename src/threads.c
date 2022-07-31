@@ -12,15 +12,22 @@
 
 #include "philosophers.h"
 
-int	routine_eat(t_all *var, int *time_eat, int id)
+int	routine_eat(t_all *var, int id)
 {
-	while (*time_eat < var->rules.time_to_eat)
+	while (var->philos[id].time_eat < var->rules.time_to_eat)
 	{
 		if (var->philos[id].is_dead == 1)
 			return (0);
 		if (!eat(var, id, var->timer))
 			return (0);
-		(*time_eat)++;
+		pthread_mutex_lock(&var->philos[id].time_eat_mut);
+		var->philos[id].time_eat++;
+		if (var->philos[id].time_eat == var->rules.time_to_eat - 1)
+		{
+			pthread_mutex_unlock(&var->philos[id].time_eat_mut);
+			return (0);
+		}
+		pthread_mutex_unlock(&var->philos[id].time_eat_mut);
 	}
 	return (1);
 }
@@ -36,15 +43,17 @@ void	*routine(void *param)
 	time_eat = var->rules.number_time_to_eat;
 	while (1)
 	{
-		if (var->philos[id].is_dead == 1)
-			return (NULL);
 		if (time_eat != -1)
 		{
-			if (!routine_eat(var, &time_eat, id))
-				return (NULL);
+			if (var->philos[id].is_dead == 1 || var->one_is_dead == 1)
+				break ;
+			if (!routine_eat(var, id))
+				break ;
 		}
 		else
 		{
+			if (var->philos[id].is_dead == 1 || var->one_is_dead == 1)
+				break ;
 			if (!eat(var, id, var->timer))
 				return (NULL);
 		}
@@ -81,12 +90,8 @@ void	wait_threads(t_all *var)
 
 void	create_threads(t_all *var)
 {
-	int	size;
-
-	size = var->rules.number_of_philosophers;
 	gettimeofday(&var->timer, NULL);
 	start_threads(var, 0);
-	//my_sleep(100);
 	start_threads(var, 1);
 	wait_threads(var);
 }

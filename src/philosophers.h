@@ -41,15 +41,16 @@ typedef struct s_rules
 
 typedef struct s_philo
 {
-	int				id;
-	int				left_fork;
-	int				right_fork;
-	int				last_meal_time;
-	pthread_t		thread;
-	pthread_t		death_checker;
-	int				is_eating;
-	int 				is_dead;
-	t_all			*all;
+	int					id;
+	int					left_fork;
+	int					right_fork;
+	int					last_meal_time;
+	pthread_t			thread;
+	pthread_t			death_checker;
+	pthread_mutex_t	time_eat_mut;
+	int 					is_dead;
+	int 					time_eat;
+	t_all					*all;
 }	t_philo;
 
 typedef struct s_all
@@ -60,7 +61,6 @@ typedef struct s_all
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	is_dead;
 	int				one_is_dead;
-	int				*i;
 	struct timeval	timer;
 }	t_all;
 
