@@ -48,8 +48,11 @@ typedef struct s_philo
 	pthread_t			thread;
 	pthread_t			death_checker;
 	pthread_mutex_t	time_eat_mut;
+	pthread_mutex_t	is_dead_mut;
 	int 					is_dead;
 	int 					time_eat;
+	int 					is_eating;
+	int 					first_meal;
 	t_all					*all;
 }	t_philo;
 
@@ -75,5 +78,5 @@ void	my_sleep(int time_to_sleep);
 int		get_ms(struct timeval begin);
 int		parse_args(int ac, char **av, t_all *var);
 void	*check_death(void *param);
-
+int check_eat_time(t_all *var, int id);
 #endif

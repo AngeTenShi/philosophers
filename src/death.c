@@ -41,7 +41,7 @@ void	*check_death(void *param)
 			break ;
 		if (var->philos[id].last_meal_time == -1)
 			continue ;
-		else
+		if (var->philos[id].is_eating == 0 && var->philos[id].first_meal == 0)
 		{
 			time = get_ms(var->timer) - var->philos[id].last_meal_time;
 			if (time >= var->rules.time_to_die && var->one_is_dead != 1)

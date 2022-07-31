@@ -41,7 +41,7 @@ void	init_rules(t_all *var, char **av, int optionnel)
 	var->one_is_dead = 0;
 }
 
-void	init_philos(t_all *var)
+void	init_philos(t_all * var)
 {
 	int	i;
 
@@ -56,7 +56,10 @@ void	init_philos(t_all *var)
 		var->philos[i].last_meal_time = -1;
 		var->philos[i].time_eat = 0;
 		var->philos[i].is_dead = 0;
+		var->philos[i].is_eating = 0;
+		var->philos[i].first_meal = 1;
 		pthread_mutex_init(&var->philos[i].time_eat_mut, NULL);
+		pthread_mutex_init(&var->philos[i].is_dead_mut, NULL);
 		i++;
 	}
 }

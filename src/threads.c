@@ -12,24 +12,26 @@
 
 #include "philosophers.h"
 
+int check_eat_time(t_all *var, int id)
+{
+	if (var->philos[id].time_eat == var->rules.time_to_eat)
+	{
+		print_message(THINKING, var, id, var->timer);
+		return (0);
+	}
+	else
+		return (1);
+}
+
 int	routine_eat(t_all *var, int id)
 {
-	while (var->philos[id].time_eat < var->rules.time_to_eat)
+	while (1)
 	{
 		if (var->philos[id].is_dead == 1)
 			return (0);
 		if (!eat(var, id, var->timer))
 			return (0);
-		pthread_mutex_lock(&var->philos[id].time_eat_mut);
-		var->philos[id].time_eat++;
-		if (var->philos[id].time_eat == var->rules.time_to_eat - 1)
-		{
-			pthread_mutex_unlock(&var->philos[id].time_eat_mut);
-			return (0);
-		}
-		pthread_mutex_unlock(&var->philos[id].time_eat_mut);
 	}
-	return (1);
 }
 
 void	*routine(void *param)
@@ -48,7 +50,7 @@ void	*routine(void *param)
 			if (var->philos[id].is_dead == 1 || var->one_is_dead == 1)
 				break ;
 			if (!routine_eat(var, id))
-				break ;
+				return (NULL) ;
 		}
 		else
 		{
