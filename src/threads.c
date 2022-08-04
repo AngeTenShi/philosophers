@@ -14,9 +14,11 @@
 
 int check_eat_time(t_all *var, int id)
 {
-	if (var->philos[id].time_eat == var->rules.time_to_eat)
+	if (var->philos[id].time_eat == -1)
+		return (1);
+	if (var->philos[id].time_eat == var->rules.number_time_to_eat)
 	{
-		print_message(THINKING, var, id, var->timer);
+		var->philos[id].finish_eating = 1;
 		return (0);
 	}
 	else

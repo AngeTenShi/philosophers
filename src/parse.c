@@ -75,7 +75,6 @@ int	parse_args(int ac, char **av, t_all *var)
 	if (ac < 5 || ac > 6)
 	{
 		ft_putstr_fd("Error it must be 5 arguments\n", 2);
-		free(var);
 		return (0);
 	}
 	if (check_chars(&av[1]))

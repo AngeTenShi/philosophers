@@ -58,6 +58,7 @@ void	init_philos(t_all * var)
 		var->philos[i].is_dead = 0;
 		var->philos[i].is_eating = 0;
 		var->philos[i].first_meal = 1;
+		var->philos[i].finish_eating = 0;
 		pthread_mutex_init(&var->philos[i].time_eat_mut, NULL);
 		pthread_mutex_init(&var->philos[i].is_dead_mut, NULL);
 		i++;

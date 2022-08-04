@@ -53,6 +53,7 @@ typedef struct s_philo
 	int 					time_eat;
 	int 					is_eating;
 	int 					first_meal;
+	int 					finish_eating;
 	t_all					*all;
 }	t_philo;
 
