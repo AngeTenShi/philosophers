@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:23 by anggonza          #+#    #+#             */
-/*   Updated: 2022/08/08 12:44:17 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:45:47 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	eat(t_all *var, int id, struct timeval timer)
 		return (0);
 	}
 	var->philos[id].time_eat++;
-	var->philos[id].is_eating = 0;
 	pthread_mutex_unlock(&var->philos[id].time_eat_mut);
+	var->philos[id].is_eating = 0;
 	pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
 	if (!print_message(FORK, var, id, timer))
 		return (0);

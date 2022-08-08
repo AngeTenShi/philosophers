@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:18 by anggonza          #+#    #+#             */
-/*   Updated: 2022/08/08 12:35:59 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:53:21 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ void	*check_death(void *param)
 			if (time >= var->rules.time_to_die && var->one_is_dead != 1
 				&& var->philos[id].finish_eating == 0)
 			{
-				if (pthread_mutex_lock(&var->is_dead))
-					return (NULL);
+				pthread_mutex_lock(&var->is_dead);
 				var->one_is_dead = 1;
 				printf("%d %d died\n", get_ms(var->timer), id);
 				everyone_dead(var);
-				if (pthread_mutex_unlock(&var->is_dead))
-					return (NULL);
+				pthread_mutex_unlock(&var->is_dead);
 				break ;
 			}
 		}
