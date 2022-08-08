@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 12:08:22 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/27 14:03:51 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:22:05 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,10 @@ void	init_philos(t_all * var)
 		var->philos[i].left_fork = i;
 		var->philos[i].right_fork = (i + 1) % var->rules.number_of_philosophers;
 		var->philos[i].all = var;
-		var->philos[i].last_meal_time = -1;
+		var->philos[i].last_meal_time = 0;
 		var->philos[i].time_eat = 0;
 		var->philos[i].is_dead = 0;
 		var->philos[i].is_eating = 0;
-		var->philos[i].first_meal = 1;
 		var->philos[i].finish_eating = 0;
 		pthread_mutex_init(&var->philos[i].time_eat_mut, NULL);
 		pthread_mutex_init(&var->philos[i].is_dead_mut, NULL);

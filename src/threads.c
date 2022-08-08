@@ -6,13 +6,13 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:18 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/27 13:58:28 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:34:25 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int check_eat_time(t_all *var, int id)
+int	check_eat_time(t_all *var, int id)
 {
 	if (var->philos[id].time_eat == -1)
 		return (1);
@@ -52,7 +52,7 @@ void	*routine(void *param)
 			if (var->philos[id].is_dead == 1 || var->one_is_dead == 1)
 				break ;
 			if (!routine_eat(var, id))
-				return (NULL) ;
+				return (NULL);
 		}
 		else
 		{
@@ -88,6 +88,7 @@ void	wait_threads(t_all *var)
 	while (i < var->rules.number_of_philosophers)
 	{
 		pthread_join(var->philos[i].thread, NULL);
+		pthread_join(var->philos[i].death_checker, NULL);
 		i++;
 	}
 }
@@ -96,6 +97,7 @@ void	create_threads(t_all *var)
 {
 	gettimeofday(&var->timer, NULL);
 	start_threads(var, 0);
+	my_sleep(150);
 	start_threads(var, 1);
 	wait_threads(var);
 }

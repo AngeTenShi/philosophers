@@ -6,13 +6,13 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:54:34 by anggonza          #+#    #+#             */
-/*   Updated: 2022/07/26 11:14:39 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/08/08 11:22:37 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int free_everything(t_all *var)
+int	free_everything(t_all *var)
 {
 	int i;
 
