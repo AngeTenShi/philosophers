@@ -61,6 +61,7 @@ typedef struct s_all
 	pthread_mutex_t	*mutex;
 	t_philo			*philos;
 	t_rules			rules;
+	pthread_t 		death_check;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	is_dead;
 	int				one_is_dead;

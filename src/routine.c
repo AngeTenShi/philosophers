@@ -41,6 +41,12 @@ int	print_message(int type, t_all *var, int id, struct timeval timer)
 	return (1);
 }
 
+int check_fork_dispo(t_all *var, int id)
+{
+	return (1);
+	return (0);
+}
+
 int	eat(t_all *var, int id, struct timeval timer)
 {
 	pthread_mutex_lock(&var->philos[id].time_eat_mut);
@@ -63,6 +69,7 @@ int	eat(t_all *var, int id, struct timeval timer)
 	var->philos[id].is_eating = 1;
 	my_sleep(var->rules.time_to_eat);
 	var->philos[id].is_eating = 0;
+	var->philos[id].last_meal_time = get_ms(timer);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
 	if (!sleeping(var, id, timer))

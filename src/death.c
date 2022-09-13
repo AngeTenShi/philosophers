@@ -39,17 +39,20 @@ void	*check_death(void *param)
 			break ;
 		if (var->philos[id].is_eating == 0)
 		{
+			pthread_mutex_lock(&var->is_dead);
 			time = get_ms(var->timer) - var->philos[id].last_meal_time;
 			if (time >= var->rules.time_to_die && var->one_is_dead != 1
-				&& var->philos[id].finish_eating == 0)
+				 && var->philos[id].finish_eating == 0)
 			{
-				pthread_mutex_lock(&var->is_dead);
 				var->one_is_dead = 1;
+				pthread_mutex_lock(&var->print_mutex);
 				printf("%d %d died\n", get_ms(var->timer), id);
+				pthread_mutex_unlock(&var->print_mutex);
 				everyone_dead(var);
 				pthread_mutex_unlock(&var->is_dead);
 				break ;
 			}
+			pthread_mutex_unlock(&var->is_dead);
 		}
 	}
 	return (NULL);

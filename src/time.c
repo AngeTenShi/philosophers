@@ -23,9 +23,10 @@ void	my_sleep(int time_to_sleep)
 	time = 0;
 	while (time < time_to_sleep)
 	{
-		gettimeofday(&end, NULL);
 		time = ((end.tv_sec - start.tv_sec) * 1000)
-			+ ((end.tv_usec - start.tv_usec) / 1000);
+				 + ((end.tv_usec - start.tv_usec) / 1000);
+		gettimeofday(&end, NULL);
+		usleep(100);
 	}
 }
 

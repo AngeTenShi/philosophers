@@ -74,6 +74,7 @@ void	start_threads(t_all *var, int pair)
 	{
 		pthread_create(&var->philos[i].thread, NULL, routine,
 			(void *)&var->philos[i]);
+		usleep(100);
 		pthread_create(&var->philos[i].death_checker, NULL, check_death,
 			(void *)&var->philos[i]);
 		i += 2;
@@ -91,13 +92,15 @@ void	wait_threads(t_all *var)
 		pthread_join(var->philos[i].death_checker, NULL);
 		i++;
 	}
+	//pthread_join(var->death_check, NULL);
 }
 
 void	create_threads(t_all *var)
 {
 	gettimeofday(&var->timer, NULL);
 	start_threads(var, 0);
-	my_sleep(150);
 	start_threads(var, 1);
+	//pthread_create(&var->death_check, NULL, check_death, (void *)var);
 	wait_threads(var);
+
 }
