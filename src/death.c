@@ -17,6 +17,7 @@ void	everyone_dead(t_all *var)
 	int	i;
 
 	i = 0;
+	var->one_is_dead = 1;
 	while (i < var->rules.number_of_philosophers)
 	{
 		if (var->philos[i].is_dead != 1)
@@ -25,9 +26,22 @@ void	everyone_dead(t_all *var)
 	}
 }
 
+int	calcul(t_all *var, int id)
+{
+	int	time_die;
+	int	last_meal;
+
+	time_die = var->rules.time_to_die;
+	last_meal = var->philos[id].last_meal_time;
+	if (get_ms(var->timer) >= time_die + last_meal && var->one_is_dead != 1
+		&& var->philos[id].finish_eating == 0)
+		return (1);
+	else
+		return (0);
+}
+
 void	*check_death(void *param)
 {
-	int		time;
 	int		id;
 	t_all	*var;
 
@@ -40,11 +54,8 @@ void	*check_death(void *param)
 		if (var->philos[id].is_eating == 0)
 		{
 			pthread_mutex_lock(&var->is_dead);
-			time = get_ms(var->timer) - var->philos[id].last_meal_time;
-			if (time >= var->rules.time_to_die && var->one_is_dead != 1
-				 && var->philos[id].finish_eating == 0)
+			if (calcul(var, id))
 			{
-				var->one_is_dead = 1;
 				pthread_mutex_lock(&var->print_mutex);
 				printf("%d %d died\n", get_ms(var->timer), id);
 				pthread_mutex_unlock(&var->print_mutex);

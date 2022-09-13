@@ -14,7 +14,7 @@
 
 int	free_everything(t_all *var)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < var->rules.number_of_philosophers)

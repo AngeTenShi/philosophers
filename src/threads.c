@@ -45,46 +45,33 @@ void	*routine(void *param)
 	var = ((t_philo *)param)->all;
 	id = ((t_philo *)param)->id;
 	time_eat = var->rules.number_time_to_eat;
+	if (id % 2 == 1)
+		my_sleep(var->rules.time_to_eat);
 	while (1)
 	{
 		if (time_eat != -1)
 		{
-			if (var->philos[id].is_dead == 1 || var->one_is_dead == 1)
-				break ;
 			if (!routine_eat(var, id))
 				return (NULL);
 		}
-		else
-		{
-			if (var->philos[id].is_dead == 1 || var->one_is_dead == 1)
-				break ;
-			if (!eat(var, id, var->timer))
-				return (NULL);
-		}
+		else if (!eat(var, id, var->timer) || var->one_is_dead == 1)
+			return (NULL);
 	}
-	return (NULL);
 }
 
-void	start_threads(t_all *var, int pair)
+void	start_threads(t_all *var)
 {
 	int	i;
 
-	i = pair;
+	i = 0;
 	while (i < var->rules.number_of_philosophers)
 	{
 		pthread_create(&var->philos[i].thread, NULL, routine,
 			(void *)&var->philos[i]);
-		usleep(100);
 		pthread_create(&var->philos[i].death_checker, NULL, check_death,
 			(void *)&var->philos[i]);
-		i += 2;
+		i++;
 	}
-}
-
-void	wait_threads(t_all *var)
-{
-	int	i;
-
 	i = 0;
 	while (i < var->rules.number_of_philosophers)
 	{
@@ -92,15 +79,10 @@ void	wait_threads(t_all *var)
 		pthread_join(var->philos[i].death_checker, NULL);
 		i++;
 	}
-	//pthread_join(var->death_check, NULL);
 }
 
 void	create_threads(t_all *var)
 {
 	gettimeofday(&var->timer, NULL);
-	start_threads(var, 0);
-	start_threads(var, 1);
-	//pthread_create(&var->death_check, NULL, check_death, (void *)var);
-	wait_threads(var);
-
+	start_threads(var);
 }

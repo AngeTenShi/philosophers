@@ -41,7 +41,7 @@ void	init_rules(t_all *var, char **av, int optionnel)
 	var->one_is_dead = 0;
 }
 
-void	init_philos(t_all * var)
+void	init_philos(t_all *var)
 {
 	int	i;
 

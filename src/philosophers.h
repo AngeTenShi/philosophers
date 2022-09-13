@@ -61,7 +61,7 @@ typedef struct s_all
 	pthread_mutex_t	*mutex;
 	t_philo			*philos;
 	t_rules			rules;
-	pthread_t 		death_check;
+	pthread_t		death_check;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	is_dead;
 	int				one_is_dead;
@@ -72,12 +72,14 @@ void	init_rules(t_all *var, char **av, int optionnel);
 void	init_philos(t_all *var);
 void	init_mutex(t_all *var);
 void	create_threads(t_all *var);
-int	print_message(int type, t_all *var, int id, struct timeval timer);
-int	sleeping(t_all *var, int id, struct timeval timer);
+int		print_message(int type, t_all *var, int id, struct timeval timer);
+int		sleeping(t_all *var, int id, struct timeval timer);
 int		eat(t_all *var, int id, struct timeval timer);
 void	my_sleep(int time_to_sleep);
 int		get_ms(struct timeval begin);
 int		parse_args(int ac, char **av, t_all *var);
 void	*check_death(void *param);
-int check_eat_time(t_all *var, int id);
+int		check_eat_time(t_all *var, int id);
+int		check_fork(t_all *var, int id, struct timeval timer);
+
 #endif

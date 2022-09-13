@@ -41,35 +41,45 @@ int	print_message(int type, t_all *var, int id, struct timeval timer)
 	return (1);
 }
 
-int check_fork_dispo(t_all *var, int id)
+int	check_fork(t_all *var, int id, struct timeval timer)
 {
+	if (var->philos[id].left_fork == var->philos[id].right_fork)
+	{
+		pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
+		print_message(FORK, var, id, timer);
+		my_sleep(var->rules.time_to_die);
+		pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
+	}
+	else
+	{
+		pthread_mutex_lock(&var->philos[id].time_eat_mut);
+		if (!check_eat_time(var, id))
+		{
+			pthread_mutex_unlock(&var->philos[id].time_eat_mut);
+			return (0);
+		}
+		var->philos[id].time_eat++;
+		pthread_mutex_unlock(&var->philos[id].time_eat_mut);
+		pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
+		if (!print_message(FORK, var, id, timer))
+			return (0);
+		pthread_mutex_lock(&var->mutex[var->philos[id].right_fork]);
+		if (!print_message(FORK, var, id, timer))
+			return (0);
+	}
 	return (1);
-	return (0);
 }
 
 int	eat(t_all *var, int id, struct timeval timer)
 {
-	pthread_mutex_lock(&var->philos[id].time_eat_mut);
-	if (!check_eat_time(var, id))
-	{
-		pthread_mutex_unlock(&var->philos[id].time_eat_mut);
-		return (0);
-	}
-	var->philos[id].time_eat++;
-	pthread_mutex_unlock(&var->philos[id].time_eat_mut);
 	var->philos[id].is_eating = 0;
-	pthread_mutex_lock(&var->mutex[var->philos[id].left_fork]);
-	if (!print_message(FORK, var, id, timer))
-		return (0);
-	pthread_mutex_lock(&var->mutex[var->philos[id].right_fork]);
-	if (!print_message(FORK, var, id, timer))
+	if (!check_fork(var, id, var->timer))
 		return (0);
 	if (!print_message(EAT, var, id, timer))
 		return (0);
 	var->philos[id].is_eating = 1;
 	my_sleep(var->rules.time_to_eat);
 	var->philos[id].is_eating = 0;
-	var->philos[id].last_meal_time = get_ms(timer);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].left_fork]);
 	pthread_mutex_unlock(&var->mutex[var->philos[id].right_fork]);
 	if (!sleeping(var, id, timer))
