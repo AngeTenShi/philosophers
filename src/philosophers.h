@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:21:28 by anggonza          #+#    #+#             */
-/*   Updated: 2022/08/08 11:48:52 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/01 11:24:42 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ typedef struct s_philo
 	int					right_fork;
 	int					last_meal_time;
 	pthread_t			thread;
-	pthread_t			death_checker;
 	pthread_mutex_t		time_eat_mut;
-	pthread_mutex_t		is_dead_mut;
 	int					is_dead;
 	int					time_eat;
 	int					is_eating;
@@ -64,8 +62,10 @@ typedef struct s_all
 	pthread_t		death_check;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	is_dead;
+	pthread_mutex_t	is_dead_mut;
 	int				one_is_dead;
 	struct timeval	timer;
+	pthread_t		death_checker;
 }	t_all;
 
 void	init_rules(t_all *var, char **av, int optionnel);

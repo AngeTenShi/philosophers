@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:18 by anggonza          #+#    #+#             */
-/*   Updated: 2022/08/08 12:34:25 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/01 11:21:09 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ int	check_eat_time(t_all *var, int id)
 
 int	routine_eat(t_all *var, int id)
 {
-	while (1)
+	while (check_eat_time(var, id))
 	{
-		if (var->philos[id].is_dead == 1)
-			return (0);
 		if (!eat(var, id, var->timer))
 			return (0);
 	}
@@ -68,17 +66,17 @@ void	start_threads(t_all *var)
 	{
 		pthread_create(&var->philos[i].thread, NULL, routine,
 			(void *)&var->philos[i]);
-		pthread_create(&var->philos[i].death_checker, NULL, check_death,
-			(void *)&var->philos[i]);
 		i++;
 	}
+	pthread_create(&var->death_checker, NULL, check_death,
+		(void *)var);
 	i = 0;
 	while (i < var->rules.number_of_philosophers)
 	{
 		pthread_join(var->philos[i].thread, NULL);
-		pthread_join(var->philos[i].death_checker, NULL);
 		i++;
 	}
+	pthread_join(var->death_checker, NULL);
 }
 
 void	create_threads(t_all *var)

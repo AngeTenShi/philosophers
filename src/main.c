@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:54:34 by anggonza          #+#    #+#             */
-/*   Updated: 2022/08/08 11:22:37 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/01 11:24:09 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	free_everything(t_all *var)
 	free(var->mutex);
 	pthread_mutex_destroy(&var->is_dead);
 	pthread_mutex_destroy(&var->print_mutex);
+	pthread_mutex_destroy(&var->is_dead_mut);
 	free(var);
 	return (1);
 }

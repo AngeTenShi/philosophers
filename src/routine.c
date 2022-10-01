@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:23 by anggonza          #+#    #+#             */
-/*   Updated: 2022/08/08 12:45:47 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/01 11:55:32 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ int	print_message(int type, t_all *var, int id, struct timeval timer)
 {
 	int	ms;
 
-	pthread_mutex_lock(&var->philos[id].is_dead_mut);
+	pthread_mutex_lock(&var->is_dead_mut);
 	ms = get_ms(timer);
 	if (type == EAT)
 		var->philos[id].last_meal_time = ms;
 	if (var->one_is_dead == 1)
 	{
-		pthread_mutex_unlock(&var->philos[id].is_dead_mut);
+		pthread_mutex_unlock(&var->is_dead_mut);
 		return (0);
 	}
-	pthread_mutex_unlock(&var->philos[id].is_dead_mut);
+	pthread_mutex_unlock(&var->is_dead_mut);
 	if (pthread_mutex_lock(&var->print_mutex))
 		return (0);
 	if (type == FORK)
