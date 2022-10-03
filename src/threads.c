@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:24:18 by anggonza          #+#    #+#             */
-/*   Updated: 2022/10/01 11:21:09 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:13:50 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ int	check_eat_time(t_all *var, int id)
 
 int	routine_eat(t_all *var, int id)
 {
-	while (check_eat_time(var, id))
+	while (1)
 	{
 		if (!eat(var, id, var->timer))
 			return (0);
 	}
+	return (1);
 }
 
 void	*routine(void *param)

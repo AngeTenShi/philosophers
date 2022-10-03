@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                             :+:      :+:    :+:  */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:54:34 by anggonza          #+#    #+#             */
-/*   Updated: 2022/06/03 15:07:17 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:19:46 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-//new way to check the overflow adding ascii values of
 int	sum(char *str)
 {
 	int	res;
@@ -39,7 +38,7 @@ int	check_overflow(char **av)
 			return (1);
 		if (ft_strlen(OVERFLOW_MAX) == ft_strlen(av[i]))
 		{
-			if (!ft_strncmp(OVERFLOW_MAX, av[i], ft_strlen(OVERFLOW_MAX)))
+			if (ft_strncmp(OVERFLOW_MAX, av[i], ft_strlen(OVERFLOW_MAX)) <= 0)
 				return (1);
 			if (sum(av[i]) > sum(OVERFLOW_MAX))
 				return (1);

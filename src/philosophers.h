@@ -6,7 +6,7 @@
 /*   By: anggonza <anggonza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:21:28 by anggonza          #+#    #+#             */
-/*   Updated: 2022/10/01 11:24:42 by anggonza         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:16:29 by anggonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define SLEEP 2
 # define THINKING 3
 # define DIED 4
-# define OVERFLOW_MAX "2147483647"
+# define OVERFLOW_MAX "2147483648"
 # define OVERFLOW_MIN "-2147483648"
 
 typedef struct s_all	t_all;
